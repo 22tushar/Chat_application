@@ -3,10 +3,15 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-
+const PORT=process.env.PORT || 3001
 app.use(cors());
 
 const server = http.createServer(app);
+
+app.use(express.static(path.join(__dirname, "client", "build")))
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "node index.js"));
+});
 
 const io = new Server(server, {
   cors: {
@@ -27,7 +32,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => {
+server.listen(PORT, () => {
   console.log("SERVER IS RUNNING");
 });
 
