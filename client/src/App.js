@@ -1,7 +1,7 @@
 import "./App.css";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
-const socket = io.connect("https://chat-application-server.vercel.app/");
+const socket = io.connect("https://chitchat02.herokuapp.com/");
 
 function App() {
   //Room State
