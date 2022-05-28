@@ -1,15 +1,20 @@
 const express = require("express");
 const app = express();
 const http = require("http");
+const { Server } = require("socket.io");
 const cors = require("cors");
-const PORT=process.env.PORT || 3001
+
 app.use(cors());
 
 const server = http.createServer(app);
 
-app.use(express.static(path.join(__dirname, "client", "build")))
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
-var io=require('socket.io')(server);
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
@@ -22,7 +27,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(3001, () => {
   console.log("SERVER IS RUNNING");
 });
-
