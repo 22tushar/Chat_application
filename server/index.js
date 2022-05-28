@@ -3,14 +3,15 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-
+const dotenv=require('dotenv')
 app.use(cors());
-
+app.use("dotenv")
 const server = http.createServer(app);
-
+dotenv.config()
 const io = new Server(server, {
   cors: {
-    origin: "https://tubular-cuchufli-0d6c4f.netlify.app",
+    origin: "*",    
+    methods: ["GET", "POST"]
   },
 });
 
@@ -26,6 +27,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => {
+server.listen(process.env.PORT, () => {
   console.log("SERVER IS RUNNING");
 });
