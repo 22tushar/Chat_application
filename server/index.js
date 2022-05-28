@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const http = require("http");
-const { Server } = require("socket.io");
 const cors = require("cors");
 const PORT=process.env.PORT || 3001
 app.use(cors());
@@ -9,17 +8,8 @@ app.use(cors());
 const server = http.createServer(app);
 
 app.use(express.static(path.join(__dirname, "client", "build")))
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "node index.js"));
-});
 
-const io = new Server(server, {
-  cors: {
-    origin: "https://chattingapp01.vercel.app/",
-    methods: ["GET", "POST"],
-  },
-});
-
+var io=require('socket.io')(server);
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
